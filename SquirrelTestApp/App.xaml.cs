@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using SquirrelTestApp.Launcher;
 
 namespace SquirrelTestApp
@@ -38,7 +39,7 @@ namespace SquirrelTestApp
                 case UpdateResult.Update:
                 {
                     Debug.WriteLine("There is no need to restart.");
-                    Dispatcher.BeginInvoke((Action)(() =>
+                    await Dispatcher.BeginInvoke((Action)(() =>
                     {
                         var laundherWindow = MainWindow;
                         MainWindow = new MainWindow();
@@ -51,13 +52,24 @@ namespace SquirrelTestApp
                 case UpdateResult.UpdateAndRestart:
                 {
                     Debug.WriteLine("We need to restart.");
+                    await Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        var dialogWindow = new Window
+                        {
+                            Content = new Label
+                            {
+                                Content = "Restarting!",
+                            },
+                        };
+                        dialogWindow.ShowDialog();
+                    }));
                     updateSerice.Restart();
                     return;
                 }
                 case UpdateResult.Error:
                 {
                     Debug.WriteLine("I don't know what happened, but this is life for some reason!");
-                    Dispatcher.BeginInvoke((Action)(() =>
+                    await Dispatcher.BeginInvoke((Action)(() =>
                     {
                         var laundherWindow = MainWindow;
                         MainWindow = new ErrorWindow();

@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="150" Width="200">
     <Grid>
-        <Label>Application is ready...</Label>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0">Application is ready...</Label>
+        <Label Grid.Row="1" Name="VersionLabel"></Label>
     </Grid>
 </Window>
